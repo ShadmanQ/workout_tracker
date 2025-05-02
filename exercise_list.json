@@ -1,0 +1,18 @@
+{
+    "1": {
+        "name": "Deadlift",
+        "muscles": [
+            "lower_back",
+            "thighs",
+            "hamstrings"
+        ]
+    },
+    "2": {
+        "name": "Tricep Press",
+        "muscles": [
+            "tricep",
+            "pectorals",
+            "forearms"
+        ]
+    }
+}
