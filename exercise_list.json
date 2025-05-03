@@ -14,5 +14,12 @@
             "pectorals",
             "forearms"
         ]
+    },
+    "3":{
+        "name":"Preacher Curls",
+        "muscles":[
+            "biceps",
+            "forearms"
+        ]
     }
 }

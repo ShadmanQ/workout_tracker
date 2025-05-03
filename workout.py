@@ -1,20 +1,10 @@
-# class workout_set:
-#     exercise = ''
-#     reps = 0
-#     weight = 0
-
-#     def __init__(self,input_data):
-#         self.exercise = input_data[0]
-#         self.reps = input_data[1]
-#         self.weight = input_data[2]
-
-#     def display(self):
-#         print(self.exercise)
-
 import matplotlib.pyplot as plt
+import csv
+import datetime
 
 class workout:
     exercises = []
+    date = ''
 
     def __str__(self):
         if len(self.exercises) == 0:
@@ -23,6 +13,9 @@ class workout:
             return f"Exercise: {self.exercises[0][0]} reps: {self.exercises[0][1]} weight: {self.exercises[0][2]}"
         else:
             self.display()
+
+    def __init__(self):
+        self.date = datetime.datetime.now()
     
     def add_exercise(self,input_data):
         print("hello")
@@ -44,7 +37,13 @@ class workout:
 
     #export the workout data as a csv
     def export(self):
-        pass
+        print("export")
+        x = open("output.csv","w",newline='')
+        writer = csv.writer(x)
+        for exercise in self.exercises:
+            print(exercise)
+            writer.writerow(exercise)
+        x.close()
 
     #view the data as a line graph
     def view(self):
@@ -52,3 +51,21 @@ class workout:
         plt.ylabel('some numbers')
         plt.xlabel('other labels')
         plt.show()
+
+    # get data from specific exercises as a list
+    def get_exercise_data(self,exercise_name):
+        return_list = []
+        for exercise in self.exercises:
+            if exercise[0] == exercise_name:
+                return_list.append(exercise[1:])
+        return return_list
+    
+    #returns each unique exercise completed in this workout as a list
+    def exercises_completed(self):
+        return_list = []
+        for exercise in self.exercises:
+            if exercise[0] not in return_list:
+                return_list.append(exercise[0])
+        return return_list
+
+

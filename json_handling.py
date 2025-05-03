@@ -24,8 +24,8 @@ class workout_set:
     def display(self):
         print(self.exercise)
 
-    # def __str__(self):
-    #     return str((self.reps, self.weight))
+    def __str__(self):
+        return str((self.exercise['name'],self.reps, self.weight))
 
 x = {"1":{
     "name":"Deadlift",
@@ -72,5 +72,16 @@ c = workout_set((input_list["2"],10,135))
 x.add_exercise(c)
 x.display()
 
+# function to see data for specific exercise
 
-x.view()
+
+# print(c)
+# x.export()
+# x.view()
+
+data_list = x.get_exercise_data("Deadlift")
+
+print(data_list)
+print(x.exercises_completed())
+
+print(x.date)
