@@ -47,21 +47,9 @@ with open("exercise_list.json","r") as openfile:
 # print(input_list)
 x = workout.workout()
 
-# print(x)
-
-# x.display()
-# y = ("Deadlift",10,135)
-# x.add_exercise(y)
-
-# x.display()
-# z = ("Deadlift",10,135)
-
-# x.add_exercise(z)
-# x.display()
 
 print(input_list["1"])
 a = workout_set((input_list["1"],10,15))
-print(a)
 x.add_exercise(a)
 
 
@@ -72,16 +60,14 @@ c = workout_set((input_list["2"],10,135))
 x.add_exercise(c)
 x.display()
 
-# function to see data for specific exercise
-
-
-# print(c)
-# x.export()
-# x.view()
+d = workout_set((input_list["3"],10,15))
+x.add_exercise(d)
 
 data_list = x.get_exercise_data("Deadlift")
 
-print(data_list)
 print(x.exercises_completed())
 
 print(x.date)
+
+x.view()
+x.export()

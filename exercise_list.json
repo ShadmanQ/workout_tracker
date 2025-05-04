@@ -1,25 +1,93 @@
 {
-    "1": {
+    "bench_press": {
+        "name": "Bench Press",
+        "muscles": [
+            "chest",
+            "triceps",
+            "shoulders"
+        ],
+        "type": "compound"
+    },
+    "squat": {
+        "name": "Squat",
+        "muscles": [
+            "quadriceps",
+            "glutes",
+            "hamstrings",
+            "core"
+        ],
+        "type": "compound"
+    },
+    "deadlift": {
         "name": "Deadlift",
         "muscles": [
-            "lower_back",
-            "thighs",
-            "hamstrings"
-        ]
+            "hamstrings",
+            "glutes",
+            "lower back",
+            "core"
+        ],
+        "type": "compound"
     },
-    "2": {
-        "name": "Tricep Press",
+    "overhead_press": {
+        "name": "Overhead Press",
         "muscles": [
-            "tricep",
-            "pectorals",
-            "forearms"
-        ]
+            "shoulders",
+            "triceps",
+            "upper chest"
+        ],
+        "type": "compound"
     },
-    "3":{
-        "name":"Preacher Curls",
-        "muscles":[
+    "barbell_row": {
+        "name": "Barbell Row",
+        "muscles": [
+            "back",
             "biceps",
-            "forearms"
-        ]
+            "rear delts"
+        ],
+        "type": "compound"
+    },
+    "pull_up": {
+        "name": "Pull Up",
+        "muscles": [
+            "back",
+            "biceps",
+            "core"
+        ],
+        "type": "bodyweight"
+    },
+    "bicep_curl": {
+        "name": "Bicep Curl",
+        "muscles": [
+            "biceps"
+        ],
+        "type": "isolation"
+    },
+    "tricep_pushdown": {
+        "name": "Tricep Pushdown",
+        "muscles": [
+            "triceps"
+        ],
+        "type": "isolation"
+    },
+    "leg_extension": {
+        "name": "Leg Extension",
+        "muscles": [
+            "quadriceps"
+        ],
+        "type": "isolation"
+    },
+    "leg_curl": {
+        "name": "Leg Curl",
+        "muscles": [
+            "hamstrings"
+        ],
+        "type": "isolation"
+    },
+    "plank": {
+        "name": "Plank",
+        "muscles": [
+            "core"
+        ],
+        "type": "bodyweight"
     }
 }

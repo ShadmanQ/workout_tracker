@@ -2,6 +2,23 @@ import matplotlib.pyplot as plt
 import csv
 import datetime
 
+class workout_set:
+    exercise = []
+    reps = 0
+    weight = 0
+
+    def __init__(self,input_data):
+        self.exercise = input_data[0]
+        self.reps = input_data[1]
+        self.weight = input_data[2]
+
+    @staticmethod 
+    def display(self):
+        print(self.exercise)
+
+    def __str__(self):
+        return str((self.exercise['name'],self.reps, self.weight))
+
 class workout:
     exercises = []
     date = ''
@@ -16,13 +33,14 @@ class workout:
 
     def __init__(self):
         self.date = datetime.datetime.now()
+        
     
     def add_exercise(self,input_data):
-        print("hello")
-        print(input_data.exercise['name'])
-        print("end")
+        # print("hello")
+        # print(input_data.exercise['name'])
+        # print("end")
         # self.exercises.append(input_data)
-        self.exercises.append((input_data.exercise['name'],input_data.reps,input_data.weight))
+        self.exercises.append(input_data)
 
     def display(self):
         if len(self.exercises) == 0:
@@ -41,8 +59,8 @@ class workout:
         x = open("output.csv","w",newline='')
         writer = csv.writer(x)
         for exercise in self.exercises:
-            print(exercise)
-            writer.writerow(exercise)
+            write_string = ([self.date.strftime("%m/%d/%Y")]+[*exercise])
+            writer.writerow(write_string)
         x.close()
 
     #view the data as a line graph
