@@ -11,7 +11,7 @@ def main():
             choice = input("It appears there is previous workout data present, would you like to load it? (y or n)")
             if choice == 'y':
                 for file in os.listdir('export_data'):
-                    with open(file,"r") as openfile:
+                    with open('./export_data/'+file,"r") as openfile:
                         past_workouts.append(openfile.read())
         print(past_workouts)
                 

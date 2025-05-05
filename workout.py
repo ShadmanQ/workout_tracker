@@ -53,7 +53,7 @@ class workout:
     #TO-DO Modify functionality to export to export data subfolder
     def export(self):
         print("export")
-        filename = self.date.strftime("%m-%d-%Y-%H-%M-%S") + "_summary.csv"
+        filename = './export_data/'+self.date.strftime("%m-%d-%Y-%H-%M-%S") + "_summary.csv"
         with open(filename,'w',newline='') as csvexport:
             writer = csv.writer(csvexport)
             for exercise in self.exercises:
