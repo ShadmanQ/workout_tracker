@@ -3,11 +3,19 @@ import json
 import os
 
 def main():
+    past_workouts = []
     if os.path.isdir('export_data'):
         print("directory found")
+        print(os.listdir('export_data'))
         if len(os.listdir('export_data')) > 0:
-            print("It appears there is previous workout data present, would you like to load it?")
-        #TO-DO implement functionality to import past workouts
+            choice = input("It appears there is previous workout data present, would you like to load it? (y or n)")
+            if choice == 'y':
+                for file in os.listdir('export_data'):
+                    with open(file,"r") as openfile:
+                        past_workouts.append(openfile.read())
+        print(past_workouts)
+                
+        
     else:
         os.mkdir('export_data')
 
@@ -33,7 +41,7 @@ def main():
                 print(input_list[exercse_name])
                 reps = int(input("Please enter the number of reps: ").strip())
                 weight = int(input("Please enter the number of reps: ").strip())
-                x.add_exercise((input_list[exercse_name],reps,weight))
+                x.add_exercise((input_list[exercse_name]['name'],reps,weight))
     print("Congratulations, you've completed your workout")
     x.display()
 

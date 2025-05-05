@@ -36,10 +36,6 @@ class workout:
         
     
     def add_exercise(self,input_data):
-        # print("hello")
-        # print(input_data.exercise['name'])
-        # print("end")
-        # self.exercises.append(input_data)
         self.exercises.append(input_data)
 
     def display(self):
@@ -57,11 +53,11 @@ class workout:
     #TO-DO Modify functionality to export to export data subfolder
     def export(self):
         print("export")
-        filename = self.date.strftime("%m-%d-%Y") + "_summary.csv"
+        filename = self.date.strftime("%m-%d-%Y-%H-%M-%S") + "_summary.csv"
         with open(filename,'w',newline='') as csvexport:
             writer = csv.writer(csvexport)
             for exercise in self.exercises:
-                write_string = ([self.date.strftime("%m/%d/%Y")]+[*exercise])
+                write_string = ([self.date.strftime("%m-%d-%Y")]+[*exercise])
                 writer.writerow(write_string)
         csvexport.close()
 

@@ -3,8 +3,6 @@
 #2. Record a workout routine of said exercies
 #3. Save the workout data in a json or csv file
 
-
-
 import json
 import workout
 import matplotlib.pyplot as plt
@@ -27,13 +25,6 @@ class workout_set:
     def __str__(self):
         return str((self.exercise['name'],self.reps, self.weight))
 
-x = {"1":{
-    "name":"Deadlift",
-    "muscles":["lower_back","thighs","hamstrings"]
-    }
-}
-
-# x = {"Push Ups":{"Muscle groups":["Chest","Triceps","Core"]}}
 
 json_obj = json.dumps(x)
 
@@ -44,9 +35,7 @@ with open("sample.json", "w") as outfile:
 with open("exercise_list.json","r") as openfile:
     input_list = json.load(openfile)
 
-# print(input_list)
 x = workout.workout()
-
 
 print(input_list["1"])
 a = workout_set((input_list["1"],10,15))
