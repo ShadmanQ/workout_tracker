@@ -54,16 +54,21 @@ class workout:
 
 
     #export the workout data as a csv
+    #TO-DO Modify functionality to export to export data subfolder
     def export(self):
         print("export")
-        x = open("output.csv","w",newline='')
-        writer = csv.writer(x)
-        for exercise in self.exercises:
-            write_string = ([self.date.strftime("%m/%d/%Y")]+[*exercise])
-            writer.writerow(write_string)
-        x.close()
+        filename = self.date.strftime("%m-%d-%Y") + "_summary.csv"
+        with open(filename,'w',newline='') as csvexport:
+            writer = csv.writer(csvexport)
+            for exercise in self.exercises:
+                write_string = ([self.date.strftime("%m/%d/%Y")]+[*exercise])
+                writer.writerow(write_string)
+        csvexport.close()
 
     #view the data as a line graph
+    #TO-DO: revamp entirely, new requirements are:
+    #show progression of weight lifted over multiple days
+    #create graph for individual exercises
     def view(self):
         plt.plot([1, 2, 3, 4],[2,4,6,8])
         plt.ylabel('some numbers')

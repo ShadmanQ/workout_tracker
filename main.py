@@ -1,7 +1,16 @@
 from workout import workout, workout_set
 import json
+import os
 
 def main():
+    if os.path.isdir('export_data'):
+        print("directory found")
+        if len(os.listdir('export_data')) > 0:
+            print("It appears there is previous workout data present, would you like to load it?")
+        #TO-DO implement functionality to import past workouts
+    else:
+        os.mkdir('export_data')
+
     with open("exercise_list.json","r") as openfile:
         input_list = json.load(openfile)
 
