@@ -86,5 +86,8 @@ class workout:
             if exercise[0] not in return_list:
                 return_list.append(exercise[0])
         return return_list
+    
+    def loadFromRoutine(self,R):
+        pass
 
 

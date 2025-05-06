@@ -5,7 +5,6 @@ import os
 def main():
     past_workouts = []
     if os.path.isdir('export_data'):
-        print("directory found")
         print(os.listdir('export_data'))
         if len(os.listdir('export_data')) > 0:
             choice = input("It appears there is previous workout data present, would you like to load it? (y or n)")
@@ -14,10 +13,15 @@ def main():
                     with open('./export_data/'+file,"r") as openfile:
                         past_workouts.append(openfile.read())
         print(past_workouts)
-                
-        
     else:
         os.mkdir('export_data')
+    if os.path.isdir('user_routines'):
+        print("user routine directory found")
+        if (len(os.listdir('user_routines'))) > 0:
+            print("you have some user routines saved!")
+    else:
+        print("making a user directory")
+        os.mkdir('user_routines')
 
     with open("exercise_list.json","r") as openfile:
         input_list = json.load(openfile)
@@ -40,7 +44,7 @@ def main():
             else:
                 print(input_list[exercse_name])
                 reps = int(input("Please enter the number of reps: ").strip())
-                weight = int(input("Please enter the number of reps: ").strip())
+                weight = int(input("Please enter the weight: ").strip())
                 x.add_exercise((input_list[exercse_name]['name'],reps,weight))
     print("Congratulations, you've completed your workout")
     x.display()
