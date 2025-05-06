@@ -19,6 +19,6 @@ class Routine:
         self.exercises.append((self.exercise_list[name]['name'], sets))
     def exportRoutine(self):
           directory = './user_routines/'
-          print(self.exercises)
+          export = {self.name:self.exercises}
           with open(directory+self.name+'.json','w') as f:
-                json.dump(self.exercises,f)
+                json.dump(export,f)

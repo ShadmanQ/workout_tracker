@@ -1,9 +1,11 @@
 from workout import workout, workout_set
+from routinebuilder import Routine
 import json
 import os
 
 def main():
     past_workouts = []
+    user_routines = []
     if os.path.isdir('export_data'):
         print(os.listdir('export_data'))
         if len(os.listdir('export_data')) > 0:
@@ -19,6 +21,12 @@ def main():
         print("user routine directory found")
         if (len(os.listdir('user_routines'))) > 0:
             print("you have some user routines saved!")
+            for file in os.listdir('user_routines'):
+                with open('./user_routines/'+file,"r") as openfile:
+                    user_routines.append(json.load(openfile))
+        print("here are the available user routines")
+        for routine in user_routines:
+            print(routine)
     else:
         print("making a user directory")
         os.mkdir('user_routines')
