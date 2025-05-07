@@ -3,9 +3,11 @@ from routinebuilder import Routine
 import json
 import os
 
+
 def main():
     past_workouts = []
     user_routines = []
+    x = workout()
     if os.path.isdir('export_data'):
         print(os.listdir('export_data'))
         if len(os.listdir('export_data')) > 0:
@@ -17,6 +19,7 @@ def main():
         print(past_workouts)
     else:
         os.mkdir('export_data')
+
     if os.path.isdir('user_routines'):
         print("user routine directory found")
         if (len(os.listdir('user_routines'))) > 0:
@@ -40,8 +43,18 @@ def main():
     while choice not in ['y', 'n']:
         choice = input("Invalid input. Please enter 'y' or 'n': ").strip().lower()
     if choice == 'y':
-        x = workout()
         print("Cool okay let's get started!")
+        if len(user_routines) > 0:
+            u = input("would you like to use one of your previously saved routines? (y or n)")
+            if u == 'y':
+                print("Here are your available routines")
+                for i in range(len(user_routines)):
+                    for key,value in user_routines[i].items():
+                        print(f"{i+1}. {key}")
+                routine_choice = int(input("To choose a routine, please choose a number that corresponds to routine you want")) - 1
+                print(user_routines[routine_choice])
+                x.loadFromRoutine(user_routines[routine_choice])
+                
         while True:
             exercse_name = input("What exercise did you do? (e.g. Deadlift): ").strip()
             if exercse_name == "exit":
@@ -50,17 +63,17 @@ def main():
                 print(f"Exercise '{exercse_name}' not found in the list.")
                 return
             else:
-                print(input_list[exercse_name])
-                reps = int(input("Please enter the number of reps: ").strip())
-                weight = int(input("Please enter the weight: ").strip())
-                x.add_exercise((input_list[exercse_name]['name'],reps,weight))
-    print("Congratulations, you've completed your workout")
-    x.display()
+                x.add_exercise(input_list[exercse_name])
+        print("Congratulations, you've completed your workout")
+    if choice == 'n':
+        print("Okay, shutting down")
+        exit()
 
     while(True):
         choice = input("What would you like to do now?")
         if choice == "exit":
-            break
+            print("Okay, shutting down")
+            exit()
         elif choice == "export":
             x.export()
         elif choice == "display":

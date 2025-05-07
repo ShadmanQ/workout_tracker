@@ -36,7 +36,12 @@ class workout:
         
     
     def add_exercise(self,input_data):
-        self.exercises.append(input_data)
+        reps = int(input("Please enter the number of reps: ").strip())
+        weight = int(input("Please enter the weight: ").strip())
+        if type(input_data) == dict:
+            self.exercises.append((input_data['name'],reps,weight))
+        elif type(input_data) == str:
+             self.exercises.append((input_data,reps,weight))
 
     def display(self):
         if len(self.exercises) == 0:
@@ -88,6 +93,8 @@ class workout:
         return return_list
     
     def loadFromRoutine(self,R):
-        pass
-
+        name = list(R)[0]
+        for exercise in R[name]:
+            for i in range(0,exercise[1]):
+                self.add_exercise(exercise[0])
 
