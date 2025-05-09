@@ -49,35 +49,27 @@ def main():
 
     print("Welcome to the Workout Tracker!")
 
+    print("What would you like to do?")
+    print("Your options are")
+    print("1. Record a workout")
+    print("2. Create a user routine")
+    print("3. Add a meal")
+    print("4. Record/update fitness details")
+    c = input("Please choose what you would like to do")
+
     choice = input("Would you like to add a workout? (y/n): ").strip()
-    while choice not in ['y', 'n']:
-        choice = input("Invalid input. Please enter 'y' or 'n': ").strip().lower()
-    if choice == 'y':
-        print("Cool okay let's get started!")
-        if len(user_routines) > 0:
-            u = input("would you like to use one of your previously saved routines? (y or n)")
-            if u == 'y':
-                print("Here are your available routines")
-                for i in range(len(user_routines)):
-                    for key,value in user_routines[i].items():
-                        print(f"{i+1}. {key}")
-                routine_choice = int(input("To choose a routine, please choose " \
-                "a number that corresponds to routine you want")) - 1
-                print(user_routines[routine_choice])
-                x.loadFromRoutine(user_routines[routine_choice])                
-        while True:
-            exercse_name = input("What exercise did you do? (e.g. Deadlift): ").strip()
-            if exercse_name == "exit":
-                break
-            if exercse_name not in input_list:
-                print(f"Exercise '{exercse_name}' not found in the list.")
-                return
-            else:
-                x.add_exercise(input_list[exercse_name])
-        print("Congratulations, you've completed your workout")
-    if choice == 'n':
-        print("Okay, shutting down")
-        sys.exit()
+
+    match choice:
+        case "1":
+            add_a_workout(user_routines,input_list,x)
+        case "2":
+            create_a_routine()
+        case "3":
+            add_a_meal()
+        case "4":
+            fitness_journey()
+
+    # add_a_workout(user_routines,input_list,x)
 
     while True:
         choice = input("What would you like to do now?")
@@ -89,6 +81,38 @@ def main():
         elif choice == "display":
             x.display()
 
+
+def add_a_workout(user_routines,input_list,x):
+    print("halloz")
+    if len(user_routines) > 0:
+        u = input("would you like to use one of your previously saved routines? (y or n)")
+        if u == 'y':
+            print("Here are your available routines")
+            for i, name in enumerate(user_routines):
+                print(f"{i+1}. {list(name.keys())[0]}")
+            routine_choice = int(input("To choose a routine, please choose " \
+            "a number that corresponds to routine you want")) - 1
+            print(user_routines[routine_choice])
+            x.loadFromRoutine(user_routines[routine_choice])
+            return
+    while True:
+        exercse_name = input("What exercise did you do? (e.g. Deadlift): ").strip()
+        if exercse_name == "exit":
+            break
+        if exercse_name not in input_list:
+            print(f"Exercise '{exercse_name}' not found in the list.")
+            return
+        else:
+            x.add_exercise(input_list[exercse_name])
+
+def add_a_meal():
+    return
+
+def create_a_routine():
+    return
+
+def fitness_journey():
+    return
 
 if __name__ == "__main__":
     main()
