@@ -3,7 +3,7 @@ import os
 import sys
 from workout import workout
 from routinebuilder import Routine
-from food_data import usda_api_handler
+from food_data import get_nutrition_info
 
 def load_external(past_workouts,user_routines):
     '''
@@ -103,8 +103,7 @@ def add_a_workout(user_routines,input_list,x):
             x.add_exercise(input_list[exercse_name])
 
 def add_a_meal():
-    u = usda_api_handler()
-    u.search(input("What did you eat?"))
+    get_nutrition_info(input("what dd you eat?"))
 
 
 def create_a_routine():
