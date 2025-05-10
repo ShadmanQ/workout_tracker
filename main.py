@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from workout import workout
+from routinebuilder import Routine
 
 def load_external(past_workouts,user_routines):
     '''
@@ -57,9 +58,7 @@ def main():
     print("4. Record/update fitness details")
     c = input("Please choose what you would like to do")
 
-    choice = input("Would you like to add a workout? (y/n): ").strip()
-
-    match choice:
+    match c:
         case "1":
             add_a_workout(user_routines,input_list,x)
         case "2":
@@ -68,8 +67,6 @@ def main():
             add_a_meal()
         case "4":
             fitness_journey()
-
-    # add_a_workout(user_routines,input_list,x)
 
     while True:
         choice = input("What would you like to do now?")
@@ -83,7 +80,6 @@ def main():
 
 
 def add_a_workout(user_routines,input_list,x):
-    print("halloz")
     if len(user_routines) > 0:
         u = input("would you like to use one of your previously saved routines? (y or n)")
         if u == 'y':
@@ -109,6 +105,14 @@ def add_a_meal():
     return
 
 def create_a_routine():
+    name = input("what would you like to call this routine?")
+    r_choice = ''
+    r = Routine(name)
+    while r_choice != 'n':
+        r.routine_add_exercise()
+        r_choice = input("would you like to add another exercise?")
+    print("saving your routine...")
+    r.save_routine()
     return
 
 def fitness_journey():

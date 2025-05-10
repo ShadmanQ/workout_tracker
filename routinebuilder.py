@@ -14,10 +14,13 @@ class Routine:
         with open("exercise_list.json","r") as openfile:
             self.exercise_list = json.load(openfile)
 
-    def addExercise(self,name):
+    def routine_add_exercise(self):
+        e_name = input("What exercise would you like to add?")
+        print(e_name in self.exercise_list)
         sets = int(input("how many sets of this exercise would you like to do?"))
-        self.exercises.append((self.exercise_list[name]['name'], sets))
-    def exportRoutine(self):
+        self.exercises.append((self.exercise_list[e_name]['name'], sets))
+
+    def save_routine(self):
           directory = './user_routines/'
           export = {self.name:self.exercises}
           with open(directory+self.name+'.json','w') as f:
