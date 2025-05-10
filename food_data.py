@@ -8,11 +8,12 @@ headersList = {
  "Accept": "*/*" 
 }
 
-x = 'Eggplant'
-reqUrl = BASE_URL + API_KEY
 
-PAYLOAD = x
-
-response = requests.request("GET", reqUrl, data=PAYLOAD,  headers=headersList)
-
-print(response.text)
+class usda_api_handler():
+    foods = []
+    def search(self,food):
+        reqUrl = BASE_URL + API_KEY + "&query=" + food
+        response = requests.request("GET", reqUrl,  headers=headersList).json()
+        for food in response['foods']:
+            print(food['description'],food['foodNutrients'][3]['value'])
+            print("------")
