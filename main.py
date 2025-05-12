@@ -1,11 +1,12 @@
 import json
 import os
 import sys
+import datetime
 from workout import workout
 from routinebuilder import Routine
 from food_data import get_nutrition_info
 
-def load_external(past_workouts,user_routines):
+def load_external(past_workouts,user_routines,food_history):
     '''
     loads external resources, currently user_routines and past workouts
     '''
@@ -28,12 +29,20 @@ def load_external(past_workouts,user_routines):
             for file in os.listdir('user_routines'):
                 with open('./user_routines/'+file,"r",encoding='utf-8') as openfile:
                     user_routines.append(json.load(openfile))
-        print("here are the available user routines")
-        for routine in user_routines:
-            print(routine)
     else:
         print("making a user directory")
         os.mkdir('user_routines')
+
+    if os.path.isdir('food_history'):
+        print("food history found")
+        if (len(os.listdir('food_history'))) > 0:
+                print("you have some user routines saved!")
+                for file in os.listdir('food_history'):
+                    with open('./food_history/'+file,"r",encoding='utf-8') as openfile:
+                        food_history.append(json.load(openfile))
+    else:
+        print("making food history directory")
+        os.mkdir('food_history')
 
     with open("exercise_list.json","r",encoding='utf-8') as openfile:
         input_list = json.load(openfile)
@@ -46,8 +55,9 @@ def main():
     '''
     past_workouts = []
     user_routines = []
+    food_history = []
     x = workout()
-    input_list = load_external(past_workouts,user_routines)
+    input_list = load_external(past_workouts,user_routines,food_history)
 
     print("Welcome to the Workout Tracker!")
 
@@ -55,7 +65,7 @@ def main():
     print("Your options are")
     print("1. Record a workout")
     print("2. Create a user routine")
-    print("3. Add a meal")
+    print("3. Check/update nutrition")
     print("4. Record/update fitness details")
     c = input("Please choose what you would like to do")
 
@@ -65,7 +75,7 @@ def main():
         case "2":
             create_a_routine()
         case "3":
-            add_a_meal()
+            add_a_meal(food_history)
         case "4":
             fitness_journey()
 
@@ -73,7 +83,7 @@ def main():
         choice = input("What would you like to do now?")
         if choice == "exit":
             print("Okay, shutting down")
-            exit()
+            sys.exit()
         elif choice == "export":
             x.export()
         elif choice == "display":
@@ -102,8 +112,18 @@ def add_a_workout(user_routines,input_list,x):
         else:
             x.add_exercise(input_list[exercse_name])
 
-def add_a_meal():
-    get_nutrition_info(input("what dd you eat?"))
+def add_a_meal(f_history):
+    print(f_history)
+    food = get_nutrition_info(input("what dd you eat?"))
+    print("please confirm your choice")
+    for i, f in enumerate(food):
+        print(f"{i+1}. {f}")
+    choice = int(input("Please enter a number"))
+    da_keys = list(food.keys())
+    f_history.append((da_keys[choice-1],food[da_keys[choice-1]]))
+    directory = './food_history/'
+    with open(directory+datetime.datetime.now().strftime("%m-%d-%Y")+'_food'+'.json','w') as f:
+        json.dump(f_history,f)
 
 
 def create_a_routine():
