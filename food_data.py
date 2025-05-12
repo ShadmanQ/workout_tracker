@@ -1,8 +1,8 @@
 import fatsecret
 import re
-CLIENT_KEY = '9f71e17713ee4d1eb8f640b38774a764'
+CLIENT_KEY = 'xxxxxxx'
 
-CLIENT_SECRET = '455e3450b3b94abfaaf8edef9edca23d'
+CLIENT_SECRET = 'xxxxxxx'
 
 client = fatsecret.Fatsecret(CLIENT_KEY, CLIENT_SECRET)
 
