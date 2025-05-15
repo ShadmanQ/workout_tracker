@@ -4,6 +4,7 @@ import sys
 from workout import workout
 from routinebuilder import Routine
 from nutrition import nutrition_handler
+from user import User
 
 def load_external(past_workouts,user_routines):
     '''
@@ -32,6 +33,14 @@ def load_external(past_workouts,user_routines):
         print("making a user directory")
         os.mkdir('user_routines')
 
+
+    if os.path.isdir('user_journey'):
+        print(f"{len(os.listdir('user_journey'))} found in the user directory")
+    else:
+        print("now making user directory")
+        os.mkdir('user_journey')
+
+
     with open("exercise_list.json","r",encoding='utf-8') as openfile:
         input_list = json.load(openfile)
     return input_list
@@ -47,6 +56,9 @@ def main():
     x = workout()
     input_list = load_external(past_workouts,user_routines)
     print("Welcome to the Workout Tracker!")
+    name = input("What's your name?").strip()
+    print(name)
+    u = User(name)
 
     print("What would you like to do?")
     print("Your options are")
@@ -74,7 +86,7 @@ def main():
         elif choice == "export":
             x.export()
         elif choice == "food":
-            food_history.export_food()
+            food_history.check_stats()
         elif choice == "display":
             x.display()
 
