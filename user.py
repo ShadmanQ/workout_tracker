@@ -11,12 +11,13 @@ class User:
     def __init__(self,n):
         self.name = n
         print("initialized!")
-        print(os.path.isdir('/.user_journey/'))
+        print(os.path.isdir('./user_journey'))
         if not os.path.isdir('./user_journey/'+n):
             print("directory not found, now making directory")
             print("it looks like you're a new user, now taking you to the new user intake")
             self.intake()
-
+        else:
+            self.load_user(n)  
     
     def intake(self):
         self.height = float(input("please enter your height in inches"))
@@ -26,8 +27,12 @@ class User:
         self.progress[dt] = self.cur_weight
         self.save_user()
 
+    def update_goal(self):
+        self.goal_weight = float(input("What is your new goal weight?"))
+
     def check_in(self):
-        self.progress[datetime.today().strftime("%m-%d-%Y:%H-%M-%S")] = float(input("How much do you weigh now?"))
+        self.cur_weight = float(input("How much do you weigh now?"))
+        self.progress[datetime.today().strftime("%m-%d-%Y:%H-%M-%S")] = self.cur_weight
 
     def get_progress(self):
         print("your goal is "+ str(self.goal_weight))
@@ -55,18 +60,16 @@ class User:
         user_write.close()
 
 
-    def load_user(self):
-        print("now loading user")
-        x = 'shadman'
-        if not os.path.isdir('./user_journey/'+x):
-            print("user not found, please create a new user with that name")
-        else:
-            with open('./user_journey/'+x+'/journey.json', 'r', encoding='utf-8') as l_user:
-                y = json.load(l_user)
-                for key in y.keys():
-                    if key == 'basic info':
-                        self.name = y[key]['name']
-                        self.cur_weight = y[key]['current_weight']
-                        self.goal_weight = y[key]['target_weight']
-                    else:
-                        self.progress[key] = y[key]
+    def load_user(self,n):
+        print("Now loading user")
+        if ('journey.json' in os.listdir('./user_journey/'+n)):
+            with open('./user_journey/'+n +'/journey.json','r') as j_file:
+                x = json.load(j_file)
+                print(type(x))
+                self.name = x['basic info']['name']
+                self.cur_weight= x['basic info']['current_weight']
+                self.goal_weight = x['basic info']['target_weight']
+                x.pop('basic info')
+                for i in x:
+                    self.progress[i] = x[i]  
+                    
