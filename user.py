@@ -1,6 +1,10 @@
 import json
 import os
 from datetime import datetime
+from workout import workout
+from routinebuilder import Routine
+from nutrition import nutrition_handler
+import random
 class User:
     height = 0.0
     cur_weight = 0.0
@@ -8,7 +12,10 @@ class User:
     name = ''
     progress = {}
 
+    affirmations = ["Good job!","You're killing it", "Wahoooooo!","PUSH, PUSH, PUSH, PUSHHHHHHHH"]
+
     def __init__(self,n):
+        self.workouts = workout(n)
         self.name = n
         print("initialized!")
         print(os.path.isdir('./user_journey'))
@@ -71,5 +78,19 @@ class User:
                 self.goal_weight = x['basic info']['target_weight']
                 x.pop('basic info')
                 for i in x:
-                    self.progress[i] = x[i]  
-                    
+                    self.progress[i] = x[i]
+
+    def start_workout(self):
+        while (self.workouts.add_exercise(input("What exercise would you like to add?").lower().strip()) != 0):
+            print(self.random_aff())
+        print("Congrats! You finished your workout!")
+        print("Would you like to save it?")
+
+    def random_aff(self):
+        return self.affirmations[random.randint(0,len(self.affirmations)-1)]
+
+        
+
+
+x = User('shadman')
+x.start_workout()

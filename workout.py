@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import csv
 import datetime
+import json
 
 class workout_set:
     exercise = []
@@ -22,6 +23,8 @@ class workout_set:
 class workout:
     exercises = []
     date = ''
+    user_name = ''
+    exercise_list = {}
 
     def __str__(self):
         if len(self.exercises) == 0:
@@ -31,17 +34,28 @@ class workout:
         else:
             self.display()
 
-    def __init__(self):
+    def __init__(self,n):
         self.date = datetime.datetime.now()
+        self.user_name = n
+        self.exercises_list = self.load_exercises()
         
-    
+    def load_exercises(self):
+        with open("exercise_list.json","r",encoding='utf-8') as openfile:
+            input_list = json.load(openfile)
+        return input_list
+
     def add_exercise(self,input_data):
+        print(self.exercises_list)
+        print(input_data)
+        x = self.exercises_list[input_data]
+        print(x)
         reps = int(input("Please enter the number of reps: ").strip())
         weight = int(input("Please enter the weight: ").strip())
-        if type(input_data) == dict:
-            self.exercises.append((input_data['name'],reps,weight))
-        elif type(input_data) == str:
-             self.exercises.append((input_data,reps,weight))
+        # if type(input_data) == dict:
+        self.exercises.append((x['name'],reps,weight))
+        print("------------------")
+        print(self.exercises)
+        return 1 if (input("Would you like to add another exercise? (type y or n )") == 'y') else 0
 
     def display(self):
         if len(self.exercises) == 0:
