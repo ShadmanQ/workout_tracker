@@ -11,11 +11,11 @@ class User:
     goal_weight = 0.0
     name = ''
     progress = {}
+    workouts = []
 
     affirmations = ["Good job!","You're killing it", "Wahoooooo!","PUSH, PUSH, PUSH, PUSHHHHHHHH"]
 
     def __init__(self,n):
-        self.workouts = workout(n)
         self.name = n
         print("initialized!")
         print(os.path.isdir('./user_journey'))
@@ -61,6 +61,8 @@ class User:
         if not os.path.isdir('./user_journey/'+self.name):
             print(f"directory for {self.name} not found, creating directory now")
             os.mkdir('./user_journey/'+self.name)
+            os.mkdir("./export_data/"+self.name)
+            os.mkdir("./food_history/"+self.name)
 
         with open('./user_journey/'+self.name+'/journey.json','w',encoding='utf-8') as user_write:
             json.dump(save_dict,user_write)
@@ -79,18 +81,18 @@ class User:
                 x.pop('basic info')
                 for i in x:
                     self.progress[i] = x[i]
+        print("now loading workouts")
+        for i in os.listdir("./export_data/"+self.name):
+            with open("./export_data/"+self.name+"/"+i) as w_file:
+                self.workouts.append(w_file.read())
 
     def start_workout(self):
-        while (self.workouts.add_exercise(input("What exercise would you like to add?").lower().strip()) != 0):
+        w = workout(self.name)
+        while (w.add_exercise(input("What exercise would you like to add?").lower().strip()) != 0):
             print(self.random_aff())
         print("Congrats! You finished your workout!")
-        print("Would you like to save it?")
+        w.export()
+    
 
     def random_aff(self):
         return self.affirmations[random.randint(0,len(self.affirmations)-1)]
-
-        
-
-
-x = User('shadman')
-x.start_workout()

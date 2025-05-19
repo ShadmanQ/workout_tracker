@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import csv
 import datetime
 import json
+import os
 
 class workout_set:
     exercise = []
@@ -72,7 +73,9 @@ class workout:
     #TO-DO Modify functionality to export to export data subfolder
     def export(self):
         print("export")
-        filename = './export_data/'+self.date.strftime("%m-%d-%Y-%H-%M-%S") + "_summary.csv"
+        if not os.path.isdir('./export_data/'+self.user_name):
+            os.mkdir('./export_data/'+self.user_name)
+        filename = './export_data/'+self.user_name +'/'+self.date.strftime("%m-%d-%Y-%H-%M-%S") + "_summary.csv"
         with open(filename,'w',newline='') as csvexport:
             writer = csv.writer(csvexport)
             for exercise in self.exercises:

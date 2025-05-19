@@ -7,21 +7,6 @@ from nutrition import nutrition_handler
 from user import User
 
 def load_external(past_workouts,user_routines):
-    '''
-    loads external resources, currently user_routines and past workouts
-    '''
-    if os.path.isdir('export_data'):
-        print(os.listdir('export_data'))
-        if len(os.listdir('export_data')) > 0:
-            choice = input("It appears there is previous workout data " \
-            "present, would you like to load it? (y or n)")
-            if choice == 'y':
-                for file in os.listdir('export_data'):
-                    with open('./export_data/'+file,"r",encoding='utf-8') as openfile:
-                        past_workouts.append(openfile.read())
-    else:
-        os.mkdir('export_data')
-
     if os.path.isdir('user_routines'):
         print("user routine directory found")
         if (len(os.listdir('user_routines'))) > 0:
