@@ -5,6 +5,7 @@ from workout import workout
 from routinebuilder import Routine
 from nutrition import nutrition_handler
 import random
+import pandas as pd
 class User:
     height = 0.0
     cur_weight = 0.0
@@ -12,6 +13,7 @@ class User:
     name = ''
     progress = {}
     workouts = []
+    routines = []
 
     affirmations = ["Good job!","You're killing it", "Wahoooooo!","PUSH, PUSH, PUSH, PUSHHHHHHHH"]
 
@@ -63,6 +65,7 @@ class User:
             os.mkdir('./user_journey/'+self.name)
             os.mkdir("./export_data/"+self.name)
             os.mkdir("./food_history/"+self.name)
+            os.mkdir('./user_routines/'+self.name)
 
         with open('./user_journey/'+self.name+'/journey.json','w',encoding='utf-8') as user_write:
             json.dump(save_dict,user_write)
@@ -70,21 +73,30 @@ class User:
 
 
     def load_user(self,n):
+
+        nutrition = nutrition_handler(n)
         print("Now loading user")
         if ('journey.json' in os.listdir('./user_journey/'+n)):
             with open('./user_journey/'+n +'/journey.json','r') as j_file:
                 x = json.load(j_file)
-                print(type(x))
                 self.name = x['basic info']['name']
                 self.cur_weight= x['basic info']['current_weight']
                 self.goal_weight = x['basic info']['target_weight']
                 x.pop('basic info')
                 for i in x:
                     self.progress[i] = x[i]
+
         print("now loading workouts")
         for i in os.listdir("./export_data/"+self.name):
             with open("./export_data/"+self.name+"/"+i) as w_file:
-                self.workouts.append(w_file.read())
+                x = pd.read_csv(w_file)
+                self.workouts.append(x)
+
+        print("now loading user routines")
+        for i in os.listdir("./user_routines/"+self.name):
+            with open("./user_routines/"+self.name+"/"+i) as r_file:
+                self.routines.append(json.load(r_file))
+
 
     def start_workout(self):
         w = workout(self.name)
@@ -96,3 +108,7 @@ class User:
 
     def random_aff(self):
         return self.affirmations[random.randint(0,len(self.affirmations)-1)]
+
+
+
+u = User('shadman')

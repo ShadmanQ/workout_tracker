@@ -3,6 +3,7 @@ import csv
 import datetime
 import json
 import os
+import pandas as pd
 
 class workout_set:
     exercise = []
@@ -26,6 +27,8 @@ class workout:
     date = ''
     user_name = ''
     exercise_list = {}
+
+    workout_df = pd.DataFrame()
 
     def __str__(self):
         if len(self.exercises) == 0:
@@ -53,9 +56,7 @@ class workout:
         reps = int(input("Please enter the number of reps: ").strip())
         weight = int(input("Please enter the weight: ").strip())
         # if type(input_data) == dict:
-        self.exercises.append((x['name'],reps,weight))
-        print("------------------")
-        print(self.exercises)
+        self.exercises.append((self.date.strftime("%H-%M-%S"), x['name'],reps,weight))
         return 1 if (input("Would you like to add another exercise? (type y or n )") == 'y') else 0
 
     def display(self):
@@ -73,15 +74,13 @@ class workout:
     #TO-DO Modify functionality to export to export data subfolder
     def export(self):
         print("export")
+        df = pd.DataFrame(columns=["time","exercise","reps","weight"],data=self.exercises)
+        print(df)
+
         if not os.path.isdir('./export_data/'+self.user_name):
             os.mkdir('./export_data/'+self.user_name)
         filename = './export_data/'+self.user_name +'/'+self.date.strftime("%m-%d-%Y-%H-%M-%S") + "_summary.csv"
-        with open(filename,'w',newline='') as csvexport:
-            writer = csv.writer(csvexport)
-            for exercise in self.exercises:
-                write_string = ([self.date.strftime("%m-%d-%Y")]+[*exercise])
-                writer.writerow(write_string)
-        csvexport.close()
+        df.to_csv(filename,index=False)
 
     #view the data as a line graph
     #TO-DO: revamp entirely, new requirements are:

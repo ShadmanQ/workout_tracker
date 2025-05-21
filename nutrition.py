@@ -6,24 +6,22 @@ import sys
 
 class nutrition_handler():
     food_history = {}
+    name = ''
 
-    def __init__(self):
+    def __init__(self,n):
+        self.name = n
         self.load_food()
         pass
 
 
     def load_food(self):
-        if os.path.isdir('food_history'):
+        if os.path.isdir('food_history/'+self.name):
             print("food history found")
             if (len(os.listdir('food_history'))) > 0:
                     for file in os.listdir('food_history'):
                         print(file)
                         with open('./food_history/'+file,"r",encoding='utf-8') as openfile:
                             self.food_history[file.split("_")[0]]=json.load(openfile)
-            # print(self.food_history)
-        else:
-            print("making food history directory")
-            os.mkdir('food_history')
 
 
     def add_a_meal(self):
