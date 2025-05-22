@@ -5,12 +5,14 @@ import json
 
 class Routine:
     name = ''
+    user = ''
     exercises = []
     exercise_list = []
 
 
-    def __init__(self,name):
+    def __init__(self,name,user):
         self.name = name
+        self.user = user
         with open("exercise_list.json","r") as openfile:
             self.exercise_list = json.load(openfile)
 
@@ -21,7 +23,7 @@ class Routine:
         self.exercises.append((self.exercise_list[e_name]['name'], sets))
 
     def save_routine(self):
-          directory = './user_routines/'
+          directory = './user_routines/' + self.user + "/"
           export = {self.name:self.exercises}
           with open(directory+self.name+'.json','w') as f:
                 json.dump(export,f)

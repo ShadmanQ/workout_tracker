@@ -1,5 +1,5 @@
 {
-    "bench_press": {
+    "Bench Press": {
         "name": "Bench Press",
         "muscles": [
             "chest",
@@ -18,7 +18,7 @@
         ],
         "type": "compound"
     },
-    "deadlift": {
+    "Deadlift": {
         "name": "Deadlift",
         "muscles": [
             "hamstrings",

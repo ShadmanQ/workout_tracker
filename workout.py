@@ -5,23 +5,6 @@ import json
 import os
 import pandas as pd
 
-class workout_set:
-    exercise = []
-    reps = 0
-    weight = 0
-
-    def __init__(self,input_data):
-        self.exercise = input_data[0]
-        self.reps = input_data[1]
-        self.weight = input_data[2]
-
-    @staticmethod 
-    def display(self):
-        print(self.exercise)
-
-    def __str__(self):
-        return str((self.exercise['name'],self.reps, self.weight))
-
 class workout:
     exercises = []
     date = ''
@@ -49,8 +32,6 @@ class workout:
         return input_list
 
     def add_exercise(self,input_data):
-        print(self.exercises_list)
-        print(input_data)
         x = self.exercises_list[input_data]
         print(x)
         reps = int(input("Please enter the number of reps: ").strip())
@@ -76,6 +57,8 @@ class workout:
         print("export")
         df = pd.DataFrame(columns=["time","exercise","reps","weight"],data=self.exercises)
         print(df)
+
+        df.to_csv("test_export.csv")
 
         if not os.path.isdir('./export_data/'+self.user_name):
             os.mkdir('./export_data/'+self.user_name)
@@ -109,6 +92,7 @@ class workout:
         return return_list
     
     def loadFromRoutine(self,R):
+        print(R)
         name = list(R)[0]
         for exercise in R[name]:
             for i in range(0,exercise[1]):

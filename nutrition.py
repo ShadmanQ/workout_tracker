@@ -3,10 +3,12 @@ import os
 import datetime
 import json
 import sys
+import pandas as pd
 
 class nutrition_handler():
     food_history = {}
     name = ''
+    current_day = []
 
     def __init__(self,n):
         self.name = n
@@ -16,12 +18,15 @@ class nutrition_handler():
 
     def load_food(self):
         if os.path.isdir('food_history/'+self.name):
-            print("food history found")
-            if (len(os.listdir('food_history'))) > 0:
-                    for file in os.listdir('food_history'):
-                        print(file)
-                        with open('./food_history/'+file,"r",encoding='utf-8') as openfile:
-                            self.food_history[file.split("_")[0]]=json.load(openfile)
+            print("food history folder found")
+            if (len(os.listdir('food_history/'+self.name))) > 0:
+                    for file in os.listdir('food_history/'+self.name):
+                        with open('./food_history/'+self.name+"/"+file,"r",encoding='utf-8') as openfile:
+                            self.food_history[file.split('_')[0]] = pd.read_json(openfile)
+            else:
+                print("no food history found")
+        else:
+            os.mkdir('food_history/'+self.name)
 
 
     def add_a_meal(self):
@@ -29,13 +34,13 @@ class nutrition_handler():
         print("please confirm your choice")
         for i, f in enumerate(food):
             print(f"{i+1}. {f}")
-        choice = int(input("Please enter a number"))
+        choice = int(input("Please enter a number"))-1
         da_keys = list(food.keys())
 
-        stwing = datetime.datetime.today().strftime("%m-%d-%Y")
-        if stwing not in self.food_history:
-            self.food_history[stwing] = []
-        self.food_history[stwing].append(((da_keys[choice-1],food[da_keys[choice-1]])))
+        print(type(food[da_keys[choice]]))
+        data = food[da_keys[choice]]
+        line = [da_keys[choice],data['serving_size'],data['Calories'],data['Fat'],data['Calories'],data['Protein']]
+        self.current_day.append(line)
 
     def get_stats(self,line):
         print(type(line))
@@ -54,11 +59,10 @@ class nutrition_handler():
 
     def export_food(self):
         print("now exporting!")
-        print(self.food_history)
-        for i in self.food_history:
-            with open('./food_history/'+i+"_food.json","w",encoding='utf-8') as f_write:
-                json.dump(self.food_history[i],f_write)
-            f_write.close()
+        print(self.current_day)
+        food_frame = pd.DataFrame(columns=['food','serving size','calories','fat','carbs','protein'],data=self.current_day)
+        print(food_frame)
+        food_frame.to_json("./food_history/"+self.name+"/"+datetime.datetime.today().strftime("%m-%d-%Y")+"_food.json")
 
     def check_stats(self):
         date = input("what day would you like to check stats for?" \
@@ -66,3 +70,5 @@ class nutrition_handler():
 
         print(date)
         self.get_stats((self.food_history[date]))
+
+

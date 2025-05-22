@@ -12,7 +12,7 @@ class User:
     goal_weight = 0.0
     name = ''
     progress = {}
-    workouts = []
+    workout_history = []
     routines = []
 
     affirmations = ["Good job!","You're killing it", "Wahoooooo!","PUSH, PUSH, PUSH, PUSHHHHHHHH"]
@@ -86,7 +86,7 @@ class User:
                 for i in x:
                     self.progress[i] = x[i]
 
-        print("now loading workouts")
+        print("now loading workout history")
         for i in os.listdir("./export_data/"+self.name):
             with open("./export_data/"+self.name+"/"+i) as w_file:
                 x = pd.read_csv(w_file)
@@ -100,15 +100,33 @@ class User:
 
     def start_workout(self):
         w = workout(self.name)
-        while (w.add_exercise(input("What exercise would you like to add?").lower().strip()) != 0):
-            print(self.random_aff())
-        print("Congrats! You finished your workout!")
+        if len(self.routines) > 0:
+            print(self.routines)
+            c = input("would you like to use one of your saved routines?")
+            if c == 'y':
+                print("Here are your available routines")
+                for i, name in enumerate(self.routines):
+                    print(f"{i+1}. {list(name.keys())[0]}")
+                routine_choice = int(input("To choose a routine, please choose " \
+                "a number that corresponds to routine you want")) - 1
+                print(self.routines[routine_choice])
+                w.loadFromRoutine(self.routines[routine_choice])
+                
+            else:
+    
+                while (w.add_exercise(input("What exercise would you like to add?").lower().strip()) != 0):
+                    print(self.random_aff())
+            print("Congrats! You finished your workout!")
         w.export()
     
 
     def random_aff(self):
         return self.affirmations[random.randint(0,len(self.affirmations)-1)]
+    
+    def build_routine(self):
+        r = Routine('shadman')
 
 
 
 u = User('shadman')
+u.start_workout()
