@@ -1,11 +1,12 @@
 import json
 import os
+import random
+import pandas as pd
 from datetime import datetime
 from workout import workout
 from routinebuilder import Routine
 from nutrition import nutrition_handler
-import random
-import pandas as pd
+
 class User:
     height = 0.0
     cur_weight = 0.0
@@ -14,6 +15,7 @@ class User:
     progress = {}
     workout_history = []
     routines = []
+    nut = nutrition_handler()
 
     affirmations = ["Good job!","You're killing it", "Wahoooooo!","PUSH, PUSH, PUSH, PUSHHHHHHHH"]
 
@@ -26,7 +28,8 @@ class User:
             print("it looks like you're a new user, now taking you to the new user intake")
             self.intake()
         else:
-            self.load_user(n)  
+            self.load_user(n)
+            self.nut.load_food_history(n)
     
     def intake(self):
         self.height = float(input("please enter your height in inches"))
@@ -73,8 +76,6 @@ class User:
 
 
     def load_user(self,n):
-
-        nutrition = nutrition_handler(n)
         print("Now loading user")
         if ('journey.json' in os.listdir('./user_journey/'+n)):
             with open('./user_journey/'+n +'/journey.json','r') as j_file:
@@ -90,7 +91,7 @@ class User:
         for i in os.listdir("./export_data/"+self.name):
             with open("./export_data/"+self.name+"/"+i) as w_file:
                 x = pd.read_csv(w_file)
-                self.workouts.append(x)
+                self.workout_history.append(x)
 
         print("now loading user routines")
         for i in os.listdir("./user_routines/"+self.name):
@@ -113,7 +114,6 @@ class User:
                 w.loadFromRoutine(self.routines[routine_choice])
                 
             else:
-    
                 while (w.add_exercise(input("What exercise would you like to add?").lower().strip()) != 0):
                     print(self.random_aff())
             print("Congrats! You finished your workout!")
@@ -123,10 +123,8 @@ class User:
     def random_aff(self):
         return self.affirmations[random.randint(0,len(self.affirmations)-1)]
     
-    def build_routine(self):
-        r = Routine('shadman')
+    def build_routine(self,r_name):
+        r = Routine(r_name,self.name)
 
-
-
-u = User('shadman')
-u.start_workout()
+    def add_food(self):
+        self.nut.add_food()
