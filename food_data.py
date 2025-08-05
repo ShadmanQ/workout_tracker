@@ -1,16 +1,20 @@
+
+'''docstring'''
 import fatsecret
 import re
-CLIENT_KEY = ''
+CLIENT_KEY = '9f71e17713ee4d1eb8f640b38774a764'
 
-CLIENT_SECRET = ''
+CLIENT_SECRET = '455e3450b3b94abfaaf8edef9edca23d'
 
 client = fatsecret.Fatsecret(CLIENT_KEY, CLIENT_SECRET)
 
 def get_nutrition_info(query):
+    '''calls API'''
     x = client.foods_search(query)
     return parse_info(x)
 
 def get_numbers(nut_info):
+    '''Math stuff'''
     num_dict = {}
     serving, others = nut_info.split('-')
     num_dict['serving_size'] = serving.strip()
@@ -25,6 +29,7 @@ def get_numbers(nut_info):
     return num_dict
 
 def parse_info(info):
+    '''parsing raw json'''
     ret_dict = {}
     x = [(f['food_name'], get_numbers(f['food_description'])) for f in info[0:10]]
     for i in info[0:10]:
