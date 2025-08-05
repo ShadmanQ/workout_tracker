@@ -1,7 +1,6 @@
 
 '''docstring'''
 import fatsecret
-import re
 CLIENT_KEY = '9f71e17713ee4d1eb8f640b38774a764'
 
 CLIENT_SECRET = '455e3450b3b94abfaaf8edef9edca23d'
@@ -31,7 +30,7 @@ def get_numbers(nut_info):
 def parse_info(info):
     '''parsing raw json'''
     ret_dict = {}
-    x = [(f['food_name'], get_numbers(f['food_description'])) for f in info[0:10]]
+    # x = [(f['food_name'], get_numbers(f['food_description'])) for f in info[0:10]]
     for i in info[0:10]:
         ret_dict[i['food_name']] = get_numbers(i['food_description'])
 
